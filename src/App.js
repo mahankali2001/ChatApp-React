@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
+import { OpenAI } from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY, dangerouslyAllowBrowser: true
+});
 
 function App() {  
   const [inputValue, setInputValue] = useState('');
@@ -9,18 +14,24 @@ function App() {
     setInputValue(event.target.value);
   };
 
-  const handleSendMessage = () => {
-    if(inputValue.trim()) {
-      setMessages([...messages, { text: inputValue, sender: 'user' }]);
+  const handleSendMessage = async () => {
+    if (inputValue.trim()) {
+      const userMessage = { text: inputValue, sender: 'user' };
+      setMessages([...messages, userMessage]);
       setInputValue('');
 
-      // Simulate bot response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: 'This is a bot response', sender: 'bot' },
-        ]);
-      }, 1000);
+      // Call OpenAI API
+      try {
+        const response = await openai.chat.completions.create({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: inputValue }],
+        });
+
+        const botMessage = { text: response.choices[0].message.content.trim(), sender: 'bot' };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } catch (error) {
+        console.error('Error calling OpenAI API:', error);
+      }
     }
   };
 

@@ -1,4 +1,4 @@
-# Simple Open AI based chat application
+# Simple Gen AI based chat application using Open AI model
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

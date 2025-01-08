@@ -1,3 +1,13 @@
+# Install following node modules
+- npm install
+- npm install express -- in case of an error
+- npm install react-scripts
+
+# Create .env file in your project root folder and have following entries in the file. 
+```
+REACT_APP_OPENAI_API_KEY="<Provide your API Key>"
+```
+
 # Simple Gen AI based chat application using Open AI model
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
